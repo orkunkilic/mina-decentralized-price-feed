@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "networks": {
+    "oracle": {
+      "url": "https://proxy.berkeley.minaexplorer.com/graphql",
+      "keyPath": "keys/oracle.json",
+      "fee": "0.1",
+      "smartContract": "Oracle"
+    },
+    "defi": {
+      "url": "https://proxy.berkeley.minaexplorer.com/graphql",
+      "keyPath": "keys/defi.json",
+      "fee": "0.1",
+      "smartContract": "DeFi"
+    }
+  }
+}

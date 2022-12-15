@@ -1,0 +1,166 @@
+version: '3.8'
+services:
+  api-1:
+    container_name: api-1
+    image: oracle/api:0.0.1
+    build:
+      context: .
+    ports:
+      - '3000:3000'
+    expose:
+      -  3000
+      -  5001
+    depends_on: 
+      - redis
+    links:
+      - redis
+    networks:
+      - default
+    volumes:
+      - .:/src/
+      - /src/node_modules
+    command: start
+    env_file:
+      - .env
+    environment:
+      - PORT=3000
+      - NODE_HOST=api-1
+      - NODE_PORT=5001
+      - PRIVATE_KEY=EKExzyYedCBqW97jfuHmN4mJ1sJ9qqdn7N3dzYsyxBD7uBuCropx
+  api-2:
+    container_name: api-2
+    image: oracle/api:0.0.1
+    build:
+      context: .
+    ports:
+      - '4000:4000'
+    expose:
+      -  4000
+      -  5002
+    depends_on: 
+      - redis
+    links:
+      - redis
+    networks:
+      - default
+    volumes:
+      - .:/src/
+      - /src/node_modules
+    command: start
+    env_file:
+      - .env
+    environment:
+      - PORT=4000
+      - PEER_HOST=api-1
+      - PEER_PORT=5001
+      - NODE_HOST=api-2
+      - NODE_PORT=5002
+      - PRIVATE_KEY=EKEGMqSDR82dYqq5wgYeazWBnT5Ht6anNZ4uj8CfoueMG6kNSQEM
+  api-3:
+    container_name: api-3
+    image: oracle/api:0.0.1
+    build:
+      context: .
+    ports:
+      - '4001:4001'
+    expose:
+      -  4001
+      -  5003
+    depends_on: 
+      - redis
+    links:
+      - redis
+    networks:
+      - default
+    volumes:
+      - .:/src/
+      - /src/node_modules
+    command: start
+    env_file:
+      - .env
+    environment:
+      - PORT=4001
+      - PEER_HOST=api-2
+      - PEER_PORT=5002
+      - NODE_HOST=api-3
+      - NODE_PORT=5003
+      - PRIVATE_KEY=EKDzknebueNBcVnNCz3k41ErsQ46GwFXJTiR9WwsSbuJPhJNgXEn
+  api-4:
+    container_name: api-4
+    image: oracle/api:0.0.1
+    build:
+      context: .
+    ports:
+      - '4002:4002'
+    expose:
+      -  4002
+      -  5004
+    depends_on: 
+      - redis
+    links:
+      - redis
+    networks:
+      - default
+    volumes:
+      - .:/src/
+      - /src/node_modules
+    command: start
+    env_file:
+      - .env
+    environment:
+      - PORT=4002
+      - PEER_HOST=api-3
+      - PEER_PORT=5003
+      - NODE_HOST=api-4
+      - NODE_PORT=5004
+      - PRIVATE_KEY=EKFbsVoeoRRCHjcjjXXCdnDrszSPZCiBVggZodb36ivi4EzMPELd
+  api-5:
+    container_name: api-5
+    image: oracle/api:0.0.1
+    build:
+      context: .
+    ports:
+      - '4003:4003'
+    expose:
+      -  4003
+      -  5005
+    depends_on: 
+      - redis
+    links:
+      - redis
+    networks:
+      - default
+    volumes:
+      - .:/src/
+      - /src/node_modules
+    command: start
+    env_file:
+      - .env
+    environment:
+      - PORT=4003
+      - PEER_HOST=api-4
+      - PEER_PORT=5004
+      - NODE_HOST=api-5
+      - NODE_PORT=5005
+      - PRIVATE_KEY=EKFGWviZDhVBck4jxmNHhqDB9wouR1b4G7Q5bH1t7sfPPEfzgXoV
+
+  redis:
+    container_name: redis
+    image: redis:7.0.4
+    restart: always
+    command: redis-server --save 20 1 --loglevel warning #--requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes: 
+      - redis:/data
+    expose:
+      - 6379
+    networks:
+      - default
+      
+volumes:
+  redis:
+    driver: local
+  fastify_volume: {}
+
+networks:
+  default:
+    driver: bridge

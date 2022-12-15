@@ -1,0 +1,11 @@
+api/node_modules
+api/dump.rdb
+
+smart-contracts/node_modules
+smart-contracts/build
+smart-contracts/keys
+smart-contracts/coverage
+
+.DS_Store
+smart-contracts/.DS_Store
+api/.DS_Store
